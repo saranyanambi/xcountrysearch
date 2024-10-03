@@ -20,17 +20,24 @@ const Country=()=>{
         fetchimage();
     },[]);
 
-    const handlechange=(e)=>{
-        setQuery(e.target.value);
-        setFilterCard(
-        card.filter((item)=>item.name.common.toLowerCase().includes(query.toLowerCase()))
-        )
-    }
+   useEffect(()=>{
+        if(setQuery=="")
+        {
+            setFilterCard([])
+        }
+        else {
+            const filter = card.filter(country =>
+              country.name.common.toLowerCase().includes(query.toLowerCase())
+            );
+            setFilterCard(filter)
+        }
+      
+   },[query,card])
     return(
         <div>
             <div>
                 <input type="text" name="country" placeholder="Search Country"  value={query}
-                onChange={(e)=>handlechange(e)} className="search-bar"/>
+                onChange={(e)=>setQuery(e.target.value)} className="search-bar"/>
             </div>
         <div className="countryList">
             {filterCard.map((item)=>(
